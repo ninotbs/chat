@@ -4,21 +4,25 @@ import { BsEmojiSmileFill } from 'react-icons/bs'
 import Picker from 'emoji-picker-react'
 import { IoMdSend } from 'react-icons/io'
 
-function ChatInput() {
-
+function ChatInput({ handleSendMsg }) {
   const [msg, setMsg] = React.useState('')
-  const [showEmojiPicker] = React.useState(false)
-  
+  const [showEmojiPicker, setShowEmojiPicker] = React.useState(false)
   const handleEmojiPickerhideShow = () => {
-    console.log('emoji picker')
+    setShowEmojiPicker(!showEmojiPicker)
   }
 
   const handleEmojiClick = (event, emojiObject) => {
-    console.log(emojiObject)
+    let message = msg
+    message += emojiObject.emoji
+    setMsg(message)
   }
 
   const sendChat = (event) => {
-    console.log(msg)
+    event.preventDefault()
+    if (msg.length > 0) {
+      handleSendMsg(msg)
+      setMsg('')
+    }
   }
 
   return (
