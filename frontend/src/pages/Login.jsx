@@ -1,17 +1,71 @@
 import React from 'react'
 import Logo from '../assets/logo.png'
 import styled from 'styled-components'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { ToastContainer } from 'react-toastify'
+import { loginRoute } from '../utils/APIRoutes'
+import axios from 'axios'
+import { toast } from 'react-toastify'
 
 function Login() {
+  const navigate = useNavigate()
+  const [values, setValues] = React.useState({
+    username: '', password: ''
+  })
+  const toastOptions = {
+    position: 'bottom-right',
+    autoClose: 8000,
+    pauseOnHover: true,
+    draggable: true,
+    theme: 'dark',
+  }
+  
+  React.useEffect(() => {
+    if (localStorage
+      .getItem(process.env.REACT_APP_LOCALHOST_KEY)) {
+      navigate('/')
+    }
+  }, [])
+
 
   const handleChange = (event) => {
-    console.log(event.taget.value)
+    setValues({
+      ...values, [event.target.name]: event.target.value
+    })
+  }
+  
+  const validateForm = () => {
+    const { username, password } = values
+    if (username === '') {
+      toast.error('Email and Password is required.', toastOptions)
+      return false
+    } else if (password === '') {
+      toast.error('Email and Password is required.', toastOptions)
+      return false
+    }
+    return true
   }
 
-  const handleSubmit = (event) => {
-    console.log(event.taget.value)
+  const handleSubmit = async (event) => {
+    event.preventDefault()
+    if (validateForm()) {
+      const { username, password } = values
+      const { data } = await axios.post(loginRoute, {
+        username,
+        password,
+      })
+      if (data.status === false) {
+        toast.error(data.msg, toastOptions)
+      }
+      if (data.status === true) {
+        localStorage.setItem(
+          process.env.REACT_APP_LOCALHOST_KEY,
+          JSON.stringify(data.user)
+        )
+
+        navigate('/')
+      }
+    }
   }
 
   return (
@@ -20,7 +74,7 @@ function Login() {
         <form action="" onSubmit={(event) => handleSubmit(event)}>
           <div className="brand">
             <img src={Logo} alt="logo" />
-            <h1>snappy</h1>
+            <h1>goodMorning</h1>
           </div>
           <input
             type="text"
@@ -65,7 +119,6 @@ const FormContainer = styled.div`
     }
     h1 {
       color: white;
-      text-transform: uppercase;
     }
   }
 
