@@ -1,15 +1,49 @@
-import React, { useRef, useState } from 'react'
+import React from 'react'
 import styled from 'styled-components'
 import Contacts from '../components/Contacts'
 import Welcome from '../components/Welcome'
 import ChatContainer from '../components/ChatContainer'
+import axios from 'axios'
+import { useNavigate } from 'react-router-dom'
+import { io } from 'socket.io-client'
+import { allUsersRoute, host } from '../utils/APIRoutes'
 
 function Chat() {
+    const navigate = useNavigate();
+  const socket = React.useRef();
+  const [contacts, setContacts] = React.useState([]);
+  const [currentChat, setCurrentChat] = React.useState(undefined);
+  const [currentUser, setCurrentUser] = React.useState(undefined);
+ 
+  React.useEffect(async () => {
+    if (!localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY)) {
+      navigate('/login')
+    } else {
+      setCurrentUser(
+        await JSON.parse(
+          localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY)
+        )
+      )
+    }
+  }, [])
 
-  const socket = useRef()
-  const [contacts] = useState([])
-  const [currentChat, setCurrentChat] = useState()
+  React.useEffect(() => {
+    if (currentUser) {
+      socket.current = io(host);
+      socket.current.emit('add-user', currentUser._id);
+    }
+  }, [currentUser])
 
+  React.useEffect(async () => {
+    if (currentUser) {
+      if (currentUser.isAvatarImageSet) {
+        const data = await axios.get(`${allUsersRoute}/${currentUser._id}`)
+        setContacts(data.data)
+      } else {
+        navigate('/setAvatar')
+      }
+    }
+  }, [currentUser])
   const handleChatChange = (chat) => {
     setCurrentChat(chat)
   }
