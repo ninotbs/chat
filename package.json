@@ -1,0 +1,10 @@
+{
+  "name": "chat",
+  "version": "v1",
+  "description": "chat app",
+  "main": "index.js",
+  "repository": "https://github.com/ninotbs/chat.git",
+  "author": "yes",
+  "license": "MIT",
+  "private": true
+}
