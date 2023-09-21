@@ -1,17 +1,23 @@
-import React, { useState } from 'react'
+import React from 'react'
 import styled from 'styled-components'
 import Logo from '../assets/logo.png'
 
-function Contacts() {
-
-  const [currentUserName] = useState(undefined)
-  const [currentUserImage] = useState(undefined)
-  const [currentSelected] = useState(undefined)
-
-  const contacts = []
+function Contacts({ contacts, changeChat }) {
+  const [currentUserName, setCurrentUserName] = React.useState(undefined)
+  const [currentUserImage, setCurrentUserImage] = React.useState(undefined)
+  const [currentSelected, setCurrentSelected] = React.useState(undefined)
+  
+  React.useEffect(async () => {
+    const data = await JSON.parse(
+      localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY)
+    )
+    setCurrentUserName(data.username)
+    setCurrentUserImage(data.avatarImage)
+  }, [])
 
   const changeCurrentChat = (index, contact) => {
-    console.log(index, contact)
+    setCurrentSelected(index)
+    changeChat(contact)
   }
 
   return (
