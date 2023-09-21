@@ -3,7 +3,13 @@ import styled from 'styled-components'
 import Robot from '../assets/robot.gif'
 
 function Welcome() {
-  const userName = localStorage.getItem('username')
+  const [userName, setUserName] = React.useState('')
+  React.useEffect(async () => {
+    setUserName(await JSON.parse(
+      localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY)
+    ).userName
+  )
+}, [])
 
   return (
     <Container>
@@ -13,7 +19,7 @@ function Welcome() {
       </h1>
       <h3>Please select a chat to Start messaging.</h3>
     </Container>
-  );
+  )
 }
 
 const Container = styled.div`
