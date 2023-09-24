@@ -47,5 +47,15 @@
   "main": "inndex.js",
   "license": "MIT",
   "description": "chat app frontend",
-  "author": "Nino Basler"
+  "author": "Nino Basler",
+  "devDependencies": {
+    "eslint-plugin-react-hooks": "^4.6.0"
+  },
+  "plugins": [
+    "react-hooks"
+  ],
+  "rules": {
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "warn"
+  }
 }
