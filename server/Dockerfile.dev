@@ -1,0 +1,16 @@
+# Dockerfile for Node Express Backend api (development)
+
+FROM node:lts-alpine
+
+# Create App directory
+RUN mkdir -p /usr/src/app
+WORKDIR /usr/src/app
+
+# Install Dependencies
+COPY package.json yarn*lock ./
+RUN yarn --frozen-lockfile
+
+ARG NODE_ENV=development
+ARG PORT
+
+EXPOSE ${PORT}
