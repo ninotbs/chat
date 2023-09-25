@@ -1,0 +1,10 @@
+.dockerignore
+.git
+.gitignore
+.prettierrc
+.vscode
+logs
+build
+docker-volunes
+
+**/node_modules
