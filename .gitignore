@@ -7,7 +7,6 @@ copado_root
 # config
 /.prettierignore
 /.prettierrc
-README.md
 
 # dependencies
 /node_modules
