@@ -20,3 +20,11 @@ This project has ready to test docker-compose configs.
 There are two docker-compose and Dockerfiles, one for production and the other for development with hot reload and debug ability.
 
 First, you'll need to copy `.env.example` or `.env`
+
+After setting `.env`, you are ready to run the backend servers:
+```bash
+docker-compose up -d
+
+# or
+docker-compose -f ./docker-compose.dev.yml up -d
+
