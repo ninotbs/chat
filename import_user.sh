@@ -1,0 +1,1 @@
+docker-compose exec mongo1 mongo --host 'rs0/mongo1:27017,mongo3:27017' diary --eval ' db.users.insert({ "username": "test", "password": "test", "email": "})
