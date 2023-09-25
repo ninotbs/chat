@@ -11,7 +11,7 @@ services:
       - '${PORT}:${PORT}'
     env_file: .env
     environment:
-       - NODE_ENV=development
+       - NODE_ENV=production
     networks:
       - chat-netowrk
   
